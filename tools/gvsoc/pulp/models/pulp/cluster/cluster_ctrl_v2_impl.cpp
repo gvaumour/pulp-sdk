@@ -253,7 +253,7 @@ int cluster_ctrl::build()
 {
   cores = (Core_cluster_ctrl *)new Core_cluster_ctrl[nb_core];
 
-  traces.new_trace("trace", &trace, vp::DEBUG);
+  traces.new_trace("trace", &trace, vp::DEBUG1);
 
   in.set_req_meth(&cluster_ctrl::req);
   new_slave_port("input", &in);

@@ -224,7 +224,7 @@ void converter::response(void *_this, vp::io_req *req)
 
 int converter::build()
 {
-  traces.new_trace("trace", &trace, vp::DEBUG);
+  traces.new_trace("trace", &trace, vp::DEBUG1);
 
   in.set_req_meth(&converter::req);
   new_slave_port("input", &in);

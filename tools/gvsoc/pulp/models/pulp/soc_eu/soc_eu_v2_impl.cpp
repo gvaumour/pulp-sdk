@@ -188,7 +188,7 @@ void soc_eu::ref_clock_sync(void *__this, bool value)
 
 int soc_eu::build()
 {
-  traces.new_trace("trace", &trace, vp::DEBUG);
+  traces.new_trace("trace", &trace, vp::DEBUG1);
   in.set_req_meth(&soc_eu::req);
   new_slave_port("input", &in);
 

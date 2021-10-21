@@ -599,7 +599,7 @@ void adv_dbg_unit::confreg_soc_sync(void *__this, uint32_t value)
 int adv_dbg_unit::build()
 {
   traces.new_trace("trace", &trace, vp::TRACE);
-  traces.new_trace("debug", &debug, vp::DEBUG);
+  traces.new_trace("debug", &debug, vp::DEBUG1);
 
   this->confreg_length = 4;
   if (get_js_config()->get("confreg_length") != NULL)

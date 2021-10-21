@@ -145,7 +145,7 @@ int job_fifo::build()
 
   new_master_port("irq", &this->irq);
 
-  this->traces.new_trace("trace", &this->trace, vp::DEBUG);
+  this->traces.new_trace("trace", &this->trace, vp::DEBUG1);
 
   this->fifo_head = 0;
   this->fifo_tail = 0;

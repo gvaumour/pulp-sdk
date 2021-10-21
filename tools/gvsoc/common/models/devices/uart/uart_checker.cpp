@@ -111,7 +111,7 @@ Uart_checker::Uart_checker(js::config *config)
 
 int Uart_checker::build()
 {
-    traces.new_trace("trace", &trace, vp::DEBUG);
+    traces.new_trace("trace", &trace, vp::DEBUG1);
 
     this->new_master_port("clock_cfg", &clock_cfg);
 

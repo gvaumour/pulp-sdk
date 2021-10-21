@@ -145,7 +145,7 @@ void Router_proxy::access(gv::Io_request *io_req)
 
 int Router_proxy::build()
 {
-    traces.new_trace("trace", &trace, vp::DEBUG);
+    traces.new_trace("trace", &trace, vp::DEBUG1);
 
     in.set_req_meth(&Router_proxy::req);
     new_slave_port("input", &in);

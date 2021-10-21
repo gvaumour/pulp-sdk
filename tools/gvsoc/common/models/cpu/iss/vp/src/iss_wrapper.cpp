@@ -1276,10 +1276,10 @@ void iss_wrapper::insn_trace_callback()
 
 int iss_wrapper::build()
 {
-  traces.new_trace("trace", &trace, vp::DEBUG);
-  traces.new_trace("gdbserver_trace", &gdbserver_trace, vp::DEBUG);
-  traces.new_trace("decode_trace", &decode_trace, vp::DEBUG);
-  traces.new_trace("insn", &insn_trace, vp::DEBUG);
+  traces.new_trace("trace", &trace, vp::DEBUG1);
+  traces.new_trace("gdbserver_trace", &gdbserver_trace, vp::DEBUG1);
+  traces.new_trace("decode_trace", &decode_trace, vp::DEBUG1);
+  traces.new_trace("insn", &insn_trace, vp::DEBUG1);
   this->insn_trace.register_callback(std::bind(&iss_wrapper::insn_trace_callback, this));
 
   traces.new_trace("csr", &csr_trace, vp::TRACE);

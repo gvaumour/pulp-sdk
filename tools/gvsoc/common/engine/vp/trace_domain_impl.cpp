@@ -528,7 +528,7 @@ void trace_domain::set_trace_level(const char *trace_level)
     }
     else if (strcmp(trace_level, "debug") == 0)
     {
-        this->trace_level = vp::DEBUG;
+        this->trace_level = vp::DEBUG1;
     }
     else if (strcmp(trace_level, "trace") == 0)
     {

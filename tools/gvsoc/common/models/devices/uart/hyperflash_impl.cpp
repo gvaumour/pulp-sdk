@@ -397,7 +397,7 @@ void Hyperflash::cs_sync(void *__this, bool value)
 
 int Hyperflash::build()
 {
-  traces.new_trace("trace", &trace, vp::DEBUG);
+  traces.new_trace("trace", &trace, vp::DEBUG1);
 
   in_itf.set_sync_cycle_meth(&Hyperflash::sync_cycle);
   new_slave_port("input", &in_itf);

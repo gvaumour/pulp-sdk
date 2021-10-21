@@ -259,7 +259,7 @@ I2s_verif::I2s_verif(Testbench *top, vp::i2s_master *itf, int itf_id, pi_testben
 
     this->engine = (vp::time_engine*)top->get_service("time");
 
-    top->traces.new_trace("i2s_verif_itf" + std::to_string(itf_id), &trace, vp::DEBUG);
+    top->traces.new_trace("i2s_verif_itf" + std::to_string(itf_id), &trace, vp::DEBUG1);
 
     for (int i=0; i<this->config.nb_slots; i++)
     {
@@ -768,7 +768,7 @@ uint32_t Rx_stream_libsnd_file::get_sample(int channel)
 
 Slot::Slot(Testbench *top, I2s_verif *i2s, int itf, int id) : vp::time_engine_client(NULL), top(top), i2s(i2s), id(id)
 {
-    top->traces.new_trace("i2s_verif_itf" + std::to_string(itf) + "_slot" + std::to_string(id), &trace, vp::DEBUG);
+    top->traces.new_trace("i2s_verif_itf" + std::to_string(itf) + "_slot" + std::to_string(id), &trace, vp::DEBUG1);
 
     this->config_rx.enabled = false;
     this->rx_started = false;

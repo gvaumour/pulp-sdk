@@ -152,7 +152,7 @@ void apb_soc_ctrl::confreg_ext_sync(void *__this, uint32_t value)
 
 int apb_soc_ctrl::build()
 {
-  traces.new_trace("trace", &trace, vp::DEBUG);
+  traces.new_trace("trace", &trace, vp::DEBUG1);
   in.set_req_meth(&apb_soc_ctrl::req);
   new_slave_port("input", &in);
 

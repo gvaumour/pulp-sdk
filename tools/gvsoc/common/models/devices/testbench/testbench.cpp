@@ -30,7 +30,7 @@ Uart_flow_control_checker::Uart_flow_control_checker(Testbench *top, Uart *uart,
 : top(top), uart(uart)
 {
 
-    top->traces.new_trace("uart_" + std::to_string(uart->id) + "/flow_control", &this->trace, vp::DEBUG);
+    top->traces.new_trace("uart_" + std::to_string(uart->id) + "/flow_control", &this->trace, vp::DEBUG1);
 
     this->uart->set_cts(0);
 
@@ -217,7 +217,7 @@ Testbench::Testbench(js::config *config)
 
 int Testbench::build()
 {
-    traces.new_trace("trace", &trace, vp::DEBUG);
+    traces.new_trace("trace", &trace, vp::DEBUG1);
 
     this->ctrl_type = get_js_config()->get("ctrl_type")->get_str();
     this->nb_gpio = get_js_config()->get("nb_gpio")->get_int();
@@ -428,7 +428,7 @@ Uart::Uart(Testbench *top, int id)
     this->tx_clock_itf.set_reg_meth(&Uart::tx_clk_reg);
     this->top->new_slave_port(this, "uart" + std::to_string(this->id) + "_tx_clock", &this->tx_clock_itf);
 
-    top->traces.new_trace("uart_" + std::to_string(id), &trace, vp::DEBUG);
+    top->traces.new_trace("uart_" + std::to_string(id), &trace, vp::DEBUG1);
 
     this->uart_current_tx = 0;
     this->is_usart = 0;
@@ -1634,7 +1634,7 @@ I2s::I2s(Testbench *top, int itf) : top(top)
     this->itf.set_sync_meth(&I2s::sync);
     top->new_master_port(this, "i2s" + std::to_string(itf), &this->itf);
 
-    top->traces.new_trace("i2s_itf" + std::to_string(itf), &trace, vp::DEBUG);
+    top->traces.new_trace("i2s_itf" + std::to_string(itf), &trace, vp::DEBUG1);
 }
 
 

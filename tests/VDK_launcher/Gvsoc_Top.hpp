@@ -74,13 +74,13 @@ protected:
     sc_time delay;
 };
 
-class Gvsoc_Top : sc_core::sc_module, gv::Io_user 
+class Gvsoc_Top : public sc_module, public gv::Io_user
 {
 
 	public: 
 
 		SC_HAS_PROCESS(Gvsoc_Top);
-		Gvsoc_Top(sc_core::sc_module_name name, std::string config_path);
+		Gvsoc_Top(const sc_module_name name);
 
 		void gvsoc2vdk_process();
 
@@ -107,14 +107,14 @@ class Gvsoc_Top : sc_core::sc_module, gv::Io_user
 		std::vector<gv::Io_request *> gvsoc2vdk_pending_requests;
 		std::vector<gv::Io_request *> vdk2gvsoc_pending_requests;
 
-		scml2::simple_target_socket<Gvsoc_Top> target_socket;
-		scml2::simple_initiator_socket<Gvsoc_Top> initiator_socket;
+		scml2::simple_target_socket<Gvsoc_Top, 32, tlm::tlm_base_protocol_types> target_socket;
+		scml2::simple_initiator_socket<Gvsoc_Top, 32, tlm::tlm_base_protocol_types> initiator_socket;
 
 		std::string m_config_file;
 		gv::Gvsoc *gvsoc;
 		gv::Io_binding *gvsoc_binding;
 		ems::mm mm;
-	    std::mutex mutex, mutex1;
+		std::mutex mutex, mutex1;
 
 		ThreadSafeEvent event_access;
 

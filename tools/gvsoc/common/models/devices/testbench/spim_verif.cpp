@@ -61,7 +61,7 @@ Spim_verif::Spim_verif(Testbench *top, Spi *spi, vp::qspim_slave *itf, pi_testbe
 
     std::string name = "spim_verif_itf" + std::to_string(itf_id) + "_cs" + std::to_string(cs);
 
-    top->traces.new_trace(name, &trace, vp::DEBUG);
+    top->traces.new_trace(name, &trace, vp::DEBUG1);
         
     this->init_pads = false;
 

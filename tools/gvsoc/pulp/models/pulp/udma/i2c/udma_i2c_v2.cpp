@@ -30,7 +30,7 @@ I2c_periph_v2::I2c_periph_v2(udma *top, int id, int itf_id) : Udma_periph(top, i
 {
   std::string itf_name = "i2c" + std::to_string(itf_id);
 
-  top->traces.new_trace(itf_name, &trace, vp::DEBUG);
+  top->traces.new_trace(itf_name, &trace, vp::DEBUG1);
 
   channel0 = new I2c_rx_channel(top, this, UDMA_EVENT_ID(id), itf_name + "_rx");
   channel1 = new I2c_tx_channel(top, this, UDMA_EVENT_ID(id) + 1, itf_name + "_tx");

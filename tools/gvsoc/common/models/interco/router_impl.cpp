@@ -388,7 +388,7 @@ std::string router::handle_command(Gv_proxy *proxy, FILE *req_file, FILE *reply_
 
 int router::build()
 {
-  traces.new_trace("trace", &trace, vp::DEBUG);
+  traces.new_trace("trace", &trace, vp::DEBUG1);
 
   in.set_req_meth(&router::req);
   new_slave_port("input", &in);

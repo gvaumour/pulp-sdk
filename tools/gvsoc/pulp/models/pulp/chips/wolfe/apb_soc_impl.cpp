@@ -328,7 +328,7 @@ void apb_soc_ctrl::bootsel_sync(void *__this, int value)
 
 int apb_soc_ctrl::build()
 {
-  traces.new_trace("trace", &trace, vp::DEBUG);
+  traces.new_trace("trace", &trace, vp::DEBUG1);
   in.set_req_meth(&apb_soc_ctrl::req);
   new_slave_port("input", &in);
 

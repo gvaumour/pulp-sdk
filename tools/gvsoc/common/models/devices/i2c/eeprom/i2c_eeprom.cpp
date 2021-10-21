@@ -181,7 +181,7 @@ void I2c_eeprom::reset(bool active)
 
 int I2c_eeprom::build(void)
 {
-    traces.new_trace("trace", &this->trace, vp::DEBUG);
+    traces.new_trace("trace", &this->trace, vp::DEBUG1);
     this->trace.msg(vp::trace::LEVEL_TRACE, "Building component\n");
 
     this->i2c_itf.set_sync_meth(&I2c_eeprom::i2c_sync);

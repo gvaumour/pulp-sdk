@@ -293,7 +293,7 @@ vp::io_req_status_e Udma_channel::req(vp::io_req *req, uint64_t offset)
 
 Udma_channel::Udma_channel(udma *top, int id, string name) : top(top), id(id), name(name)
 {
-  top->traces.new_trace(name + "/trace", &trace, vp::DEBUG);
+  top->traces.new_trace(name + "/trace", &trace, vp::DEBUG1);
 
   // Each channel can handle 2 transfers at the same time
   free_reqs = new Udma_queue<Udma_transfer>(2);
@@ -666,7 +666,7 @@ void udma::clk_reg(component *__this, component *clock)
 
 int udma::build()
 {
-  traces.new_trace("trace", &trace, vp::DEBUG);
+  traces.new_trace("trace", &trace, vp::DEBUG1);
   traces.new_trace("warning", &warning, vp::WARNING);
 
   in.set_req_meth(&udma::req);

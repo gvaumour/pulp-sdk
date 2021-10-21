@@ -230,7 +230,7 @@ dpi_chip_wrapper::dpi_chip_wrapper(js::config *config)
 
 int dpi_chip_wrapper::build()
 {
-    traces.new_trace("trace", &trace, vp::DEBUG);
+    traces.new_trace("trace", &trace, vp::DEBUG1);
 
     js::config *groups = get_js_config()->get("groups");
 

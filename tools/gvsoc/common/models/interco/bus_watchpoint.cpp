@@ -77,7 +77,7 @@ vp::io_req_status_e bus_watchpoint::req(void *__this, vp::io_req *req)
 
 int bus_watchpoint::build()
 {
-  traces.new_trace("trace", &trace, vp::DEBUG);
+  traces.new_trace("trace", &trace, vp::DEBUG1);
 
   in.set_req_meth(&bus_watchpoint::req);
   new_slave_port("input", &in);

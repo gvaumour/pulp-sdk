@@ -67,7 +67,7 @@ void Gdb_server::pre_pre_build()
 
 int Gdb_server::build()
 {
-    traces.new_trace("trace", &trace, vp::DEBUG);
+    traces.new_trace("trace", &trace, vp::DEBUG1);
     this->new_master_port("out", &this->out);
     this->event = this->event_new(&Gdb_server::handle);
     this->pending_access = false;

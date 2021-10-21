@@ -160,7 +160,7 @@ void Hyperram::cs_sync(void *__this, bool value)
 
 int Hyperram::build()
 {
-  traces.new_trace("trace", &trace, vp::DEBUG);
+  traces.new_trace("trace", &trace, vp::DEBUG1);
 
   in_itf.set_sync_cycle_meth(&Hyperram::sync_cycle);
   new_slave_port("input", &in_itf);

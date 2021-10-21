@@ -380,7 +380,7 @@ void dpi_wrapper::i2c_sync(void *__this, int scl, int sda, int id)
 
 int dpi_wrapper::build()
 {
-  traces.new_trace("trace", &trace, vp::DEBUG);
+  traces.new_trace("trace", &trace, vp::DEBUG1);
 
 
   this->new_master_port("chip_reset", &this->chip_reset_itf);
@@ -661,7 +661,7 @@ extern "C" void *dpi_trace_new(void *data, const char *name)
 {
   dpi_wrapper *_this = (dpi_wrapper *)data;
   vp::trace *trace = new(vp::trace);
-  _this->traces.new_trace(name, trace, vp::DEBUG);
+  _this->traces.new_trace(name, trace, vp::DEBUG1);
   return (void *)trace;
 }
 

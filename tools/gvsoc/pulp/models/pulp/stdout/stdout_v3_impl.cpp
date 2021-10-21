@@ -91,7 +91,7 @@ vp::io_req_status_e Stdout::req(void *__this, vp::io_req *req)
 
 int Stdout::build()
 {
-  traces.new_trace("trace", &trace, vp::DEBUG);
+  traces.new_trace("trace", &trace, vp::DEBUG1);
   in.set_req_meth(&Stdout::req);
   new_slave_port("input", &in);
 

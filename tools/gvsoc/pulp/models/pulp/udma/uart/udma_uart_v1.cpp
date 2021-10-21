@@ -30,7 +30,7 @@ Uart_periph_v1::Uart_periph_v1(udma *top, int id, int itf_id) : Udma_periph(top,
 {
   std::string itf_name = "uart" + std::to_string(itf_id);
 
-  top->traces.new_trace(itf_name, &trace, vp::DEBUG);
+  top->traces.new_trace(itf_name, &trace, vp::DEBUG1);
 
   channel0 = new Uart_rx_channel(top, this, UDMA_EVENT_ID(id), itf_name + "_rx");
   channel1 = new Uart_tx_channel(top, this, UDMA_EVENT_ID(id) + 1, itf_name + "_tx");

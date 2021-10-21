@@ -368,7 +368,7 @@ void vp::component_clock::pre_build(component *comp)
     reset_port.set_sync_meth(&component_clock::reset_sync);
     comp->new_slave_port("reset", &reset_port);
 
-    comp->traces.new_trace("comp", comp->get_trace(), vp::DEBUG);
+    comp->traces.new_trace("comp", comp->get_trace(), vp::DEBUG1);
     comp->traces.new_trace("warning", &comp->warning, vp::WARNING);
 
 }
@@ -1622,7 +1622,6 @@ void vp::component::create_comps()
 
 vp::component *vp::__gv_create(std::string config_path, struct gv_conf *gv_conf)
 {
-    setenv("PULP_CONFIG_FILE", config_path.c_str(), 1);
 
     js::config *js_config = js::import_config_from_file(config_path);
     if (js_config == NULL)

@@ -91,7 +91,7 @@ void loader::response(void *__this, vp::io_req *req)
 
 int loader::build()
 {
-  traces.new_trace("trace", &trace, vp::DEBUG);
+  traces.new_trace("trace", &trace, vp::DEBUG1);
 
   out.set_resp_meth(&loader::response);
   out.set_grant_meth(&loader::grant);

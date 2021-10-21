@@ -242,7 +242,7 @@ bool Jtag::open_proxy() {
 
 int Jtag::build()
 {
-    traces.new_trace("trace", &trace, vp::DEBUG);
+    traces.new_trace("trace", &trace, vp::DEBUG1);
 
     this->jtag_itf.set_sync_meth(&Jtag::sync);
     this->new_master_port("jtag", &this->jtag_itf);

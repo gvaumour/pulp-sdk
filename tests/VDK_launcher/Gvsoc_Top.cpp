@@ -23,7 +23,7 @@ using namespace std;
 using namespace sc_core;
 
 
-Gvsoc_Top::Gvsoc_Top(sc_module_name name, string config_path) : 
+Gvsoc_Top::Gvsoc_Top(const sc_module_name name) :
 	sc_module(name)
 {
         initiator_socket.register_invalidate_direct_mem_ptr(this, &Gvsoc_Top::invalidate_direct_mem_ptr);
@@ -31,22 +31,23 @@ Gvsoc_Top::Gvsoc_Top(sc_module_name name, string config_path) :
         target_socket.register_transport_dbg( this, &Gvsoc_Top::transport_dbg);
         target_socket.register_get_direct_mem_ptr( this, &Gvsoc_Top::get_direct_mem_ptr);
 
-		m_config_file = config_path;
-
-		#ifdef IS_STANDALONE_EXEC
+	//m_config_file = config_path;
+	m_config_file = std::string(getenv("VDK_CONFIG_FILE"));
+	assert(m_config_file != ""); 
+	
+	
+	#ifdef IS_STANDALONE_EXEC
 		SC_THREAD(dummy_thread);
-		#endif
+	#endif
 
-	    SC_THREAD(gvsoc2vdk_process);
-	    sensitive << event_access;
-	    
-		// Open GVSOC and create the connection to the AXI proxy so that we can exchange IO requests
-		// with Pulp side
-		gvsoc = gv::gvsoc_new();
-		gvsoc->open(config_path);
-
-		gvsoc_binding = gvsoc->io_bind(this, "/chip/axi_proxy", "");
-
+	SC_THREAD(gvsoc2vdk_process);
+	sensitive << event_access;
+	   
+	// Open GVSOC and create the connection to the AXI proxy so that we can exchange IO requests
+	// with Pulp side
+	gvsoc = gv::gvsoc_new();
+	gvsoc->open(m_config_file);
+	gvsoc_binding = gvsoc->io_bind(this, "/chip/axi_proxy", "");
 }
 
 
@@ -55,7 +56,7 @@ Gvsoc_Top::Gvsoc_Top(sc_module_name name, string config_path) :
 /* 
  * This thread does nothing but prevent the SystemC simulation
  * from stopping when simulation only progresses in GVSoC
- * Note that will make the simulation running forever and it has to be killed manually
+ * To stop the simulation, the GVSoC part needs to write to END_SIM_ADDRESS
  */
 void Gvsoc_Top::dummy_thread() {
 

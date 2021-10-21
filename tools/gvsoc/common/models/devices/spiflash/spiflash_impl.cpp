@@ -446,7 +446,7 @@ void spiflash::cs_sync(void *__this, bool active)
   
 int spiflash::build()
 {
-  traces.new_trace("trace", &trace, vp::DEBUG);
+  traces.new_trace("trace", &trace, vp::DEBUG1);
 
   this->in_itf.set_sync_meth(&spiflash::sync);
   this->new_slave_port("input", &this->in_itf);

@@ -15,10 +15,16 @@
  *
  * Authors: Gregory Vaumourin (gregory.vaumourin@atos.net)
  */
+
+#ifndef __TLM_LOGGER_HPP__
+#define __TLM_LOGGER_HPP__
+
 #include <string>
 #include <stdint.h>
 #include <tlm.h>
-#include <tlm_utils/simple_target_socket.h>
+
+//#include <tlm_utils/simple_target_socket.h>
+#include <scml2.h>
 
 #include "ems_mm.h"
 
@@ -26,8 +32,8 @@ class TlmLogger : public sc_core::sc_module
 {
 
     public:
-        tlm_utils::simple_target_socket<TlmLogger> in;
-        tlm_utils::simple_initiator_socket<TlmLogger> out;
+        scml2::simple_target_socket<TlmLogger, 32, tlm::tlm_base_protocol_types> in;
+        scml2::simple_initiator_socket<TlmLogger, 32, tlm::tlm_base_protocol_types> out;
 
         unsigned char data_buffer[4];
         const unsigned char data_buffer_const[4] = {0x0, 0x1, 0x2, 0x3};
@@ -149,4 +155,6 @@ class TlmLogger : public sc_core::sc_module
         }
 
 };
+
+#endif
 

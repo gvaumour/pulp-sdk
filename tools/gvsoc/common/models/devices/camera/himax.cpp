@@ -500,7 +500,7 @@ void Himax::clock_handler(void *__this, vp::clock_event *event)
 
 int Himax::build()
 {
-    traces.new_trace("trace", &trace, vp::DEBUG);
+    traces.new_trace("trace", &trace, vp::DEBUG1);
 
     this->new_master_port("cpi", &this->cpi_itf);
 

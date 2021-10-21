@@ -56,7 +56,7 @@ I2c_bus::I2c_bus(js::config *config)
 
 int I2c_bus::build()
 {
-    traces.new_trace("trace", &trace, vp::DEBUG);
+    traces.new_trace("trace", &trace, vp::DEBUG1);
 
     this->in.set_sync_meth_demuxed(&I2c_bus::sync);
     new_slave_port("input", &in);

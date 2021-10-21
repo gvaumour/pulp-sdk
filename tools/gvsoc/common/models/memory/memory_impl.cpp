@@ -214,7 +214,7 @@ void memory::power_ctrl_sync(void *__this, bool value)
 
 int memory::build()
 {
-  traces.new_trace("trace", &trace, vp::DEBUG);
+  traces.new_trace("trace", &trace, vp::DEBUG1);
   in.set_req_meth(&memory::req);
   new_slave_port("input", &in);
 

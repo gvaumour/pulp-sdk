@@ -643,7 +643,7 @@ void Event_unit::in_event_sync(void *__this, bool active, int id)
 
 int Event_unit::build()
 {
-  traces.new_trace("trace", &trace, vp::DEBUG);
+  traces.new_trace("trace", &trace, vp::DEBUG1);
 
   in.set_req_meth(&Event_unit::req);
   new_slave_port("input", &in);
@@ -1008,7 +1008,7 @@ void Core_event_unit::check_state()
 Mutex_unit::Mutex_unit(Event_unit *top)
 : top(top)
 {
-  top->traces.new_trace("mutex/trace", &trace, vp::DEBUG);
+  top->traces.new_trace("mutex/trace", &trace, vp::DEBUG1);
   nb_mutexes = top->get_config_int("**/properties/mutex/nb_mutexes");
   mutex_event = top->get_config_int("**/properties/events/mutex");
   mutexes = new Mutex[nb_mutexes];
@@ -1314,7 +1314,7 @@ Dispatch_unit::Dispatch_unit(Event_unit *top)
 Barrier_unit::Barrier_unit(Event_unit *top)
 : top(top)
 {
-  top->traces.new_trace("barrier/trace", &trace, vp::DEBUG);
+  top->traces.new_trace("barrier/trace", &trace, vp::DEBUG1);
   nb_barriers = top->get_config_int("**/properties/barriers/nb_barriers");
   barrier_event = top->get_config_int("**/properties/events/barrier");
   barriers = new Barrier[nb_barriers];
@@ -1463,7 +1463,7 @@ Soc_event_unit::Soc_event_unit(Event_unit *top) : top(top)
   this->nb_fifo_events = top->get_config_int("**/nb_fifo_events");
   this->fifo_soc_event = top->get_config_int("**/fifo_event");
 
-  top->traces.new_trace("soc_eu/trace", &trace, vp::DEBUG);
+  top->traces.new_trace("soc_eu/trace", &trace, vp::DEBUG1);
 
   this->fifo_event = new int[nb_fifo_events];
 

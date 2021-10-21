@@ -112,7 +112,7 @@ vp::io_req_status_e interleaver::req_ts(void *__this, vp::io_req *req)
 int interleaver::build()
 {
 
-  traces.new_trace("trace", &trace, vp::DEBUG);
+  traces.new_trace("trace", &trace, vp::DEBUG1);
 
   in.set_req_meth(&interleaver::req);
   new_slave_port("in", &in);

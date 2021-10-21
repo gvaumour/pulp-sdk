@@ -158,7 +158,7 @@ int injector::build()
 
   new_master_port("output", &out);
 
-  traces.new_trace("trace", &trace, vp::DEBUG);
+  traces.new_trace("trace", &trace, vp::DEBUG1);
 
   int snd_fd = this->get_js_config()->get_int("snd_fd");
   int rcv_fd = this->get_js_config()->get_int("rcv_fd");

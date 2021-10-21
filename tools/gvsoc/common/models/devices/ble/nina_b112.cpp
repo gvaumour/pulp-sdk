@@ -502,7 +502,7 @@ void Nina_b112::tx_clk_reg(vp::component *__this, vp::component *clock)
 
 int Nina_b112::build()
 {
-    traces.new_trace("trace", &trace, vp::DEBUG);
+    traces.new_trace("trace", &trace, vp::DEBUG1);
 
     /* Initialize clocks and ports */
     this->rx_clock_itf.set_reg_meth(&Nina_b112::rx_clk_reg);

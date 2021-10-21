@@ -80,7 +80,7 @@ vp::io_req_status_e icache_ctrl::req(void *__this, vp::io_req *req)
 
 int icache_ctrl::build()
 {
-  traces.new_trace("trace", &trace, vp::DEBUG);
+  traces.new_trace("trace", &trace, vp::DEBUG1);
   in.set_req_meth(&icache_ctrl::req);
   new_slave_port("input", &in);
 

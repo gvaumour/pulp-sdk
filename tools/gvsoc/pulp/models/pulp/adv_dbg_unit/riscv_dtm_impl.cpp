@@ -798,7 +798,7 @@ end:
 int riscv_dtm::build()
 {
   traces.new_trace("trace", &trace, vp::TRACE);
-  traces.new_trace("debug", &debug, vp::DEBUG);
+  traces.new_trace("debug", &debug, vp::DEBUG1);
 
   core_io_itf.set_req_meth(&riscv_dtm::core_req);
   new_slave_port("input", &core_io_itf);

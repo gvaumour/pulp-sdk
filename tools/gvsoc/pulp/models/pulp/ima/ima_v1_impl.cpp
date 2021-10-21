@@ -1086,7 +1086,7 @@ void ima_v1::stream_reqs(bool is_write)
 
 int ima_v1::build()
 {
-  traces.new_trace("trace", &trace, vp::DEBUG);
+  traces.new_trace("trace", &trace, vp::DEBUG1);
 
   nb_master_ports = get_config_int("nb_masters");
   xbar_x = get_config_int("xbar_x");

@@ -303,7 +303,7 @@ void itc::in_event_sync(void *__this, bool active, int id)
 
 int itc::build()
 {
-  traces.new_trace("trace", &trace, vp::DEBUG);
+  traces.new_trace("trace", &trace, vp::DEBUG1);
 
   in.set_req_meth(&itc::req);
   new_slave_port("input", &in);

@@ -285,7 +285,7 @@ void Microphone::ws_in_sync(void *__this, int sck, int ws, int sd)
 
 int Microphone::build()
 {
-    traces.new_trace("trace", &trace, vp::DEBUG);
+    traces.new_trace("trace", &trace, vp::DEBUG1);
 
     this->new_master_port("i2s", &this->i2s_itf);
     this->new_master_port("ws_out", &this->ws_out_itf);

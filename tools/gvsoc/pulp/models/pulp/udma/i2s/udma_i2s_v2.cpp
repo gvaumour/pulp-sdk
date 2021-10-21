@@ -31,7 +31,7 @@ I2s_periph::I2s_periph(udma *top, int id, int itf_id) : Udma_periph(top, id)
 {
   std::string itf_name = "i2s" + std::to_string(itf_id);
 
-  top->traces.new_trace(itf_name, &trace, vp::DEBUG);
+  top->traces.new_trace(itf_name, &trace, vp::DEBUG1);
 
   channel0 = new I2s_rx_channel(top, this, 0, UDMA_EVENT_ID(id), itf_name + "_0");
   channel1 = new I2s_rx_channel(top, this, 1, UDMA_EVENT_ID(id)+1, itf_name + "_1");

@@ -176,7 +176,7 @@ Speaker::Speaker(js::config *config)
 
 int Speaker::build()
 {
-    traces.new_trace("trace", &trace, vp::DEBUG);
+    traces.new_trace("trace", &trace, vp::DEBUG1);
 
     this->new_master_port("i2s", &this->i2s_itf);
     this->new_master_port("clock_cfg", &this->clock_cfg);

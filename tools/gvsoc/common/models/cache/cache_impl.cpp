@@ -151,7 +151,7 @@ int Cache::build()
 
   this->new_slave_port("input", &this->input_itf[0]);
 
-  this->traces.new_trace("trace", &this->trace, vp::DEBUG);
+  this->traces.new_trace("trace", &this->trace, vp::DEBUG1);
 
   this->enable_itf.set_sync_meth(Cache::enable_sync);
   this->new_slave_port("enable", &this->enable_itf);

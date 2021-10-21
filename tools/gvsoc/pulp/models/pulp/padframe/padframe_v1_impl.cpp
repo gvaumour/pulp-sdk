@@ -643,7 +643,7 @@ void padframe::ref_clock_set_frequency(void *__this, int64_t value)
 
 int padframe::build()
 {
-  traces.new_trace("trace", &trace, vp::DEBUG);
+  traces.new_trace("trace", &trace, vp::DEBUG1);
   in.set_req_meth(&padframe::req);
 
   new_slave_port("in", &in);

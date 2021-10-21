@@ -36,7 +36,7 @@ namespace vp {
     ERROR,
     WARNING,
     INFO,
-    DEBUG,
+    DEBUG1,
     TRACE
   } trace_level_e;
 

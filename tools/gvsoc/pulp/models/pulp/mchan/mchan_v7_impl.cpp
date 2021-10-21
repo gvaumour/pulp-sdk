@@ -1146,7 +1146,7 @@ void mchan::check_queue()
 
 int mchan::build()
 {
-  traces.new_trace("trace", &this->trace, vp::DEBUG);
+  traces.new_trace("trace", &this->trace, vp::DEBUG1);
 
   for (int i=0; i<nb_channels; i++)
   {

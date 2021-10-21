@@ -127,7 +127,7 @@ vp::io_req_status_e Ne16::hwpe_slave(void *__this, vp::io_req *req)
 
 int Ne16::build()
 {
-    this->traces.new_trace("trace", &this->trace, vp::DEBUG);
+    this->traces.new_trace("trace", &this->trace, vp::DEBUG1);
 
     this->new_master_port("out", &this->out);
 
