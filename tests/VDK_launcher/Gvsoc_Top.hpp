@@ -27,9 +27,8 @@
 #include <scml2.h>
 
 #include <tlm.h> 
-#include <tlm_utils/simple_initiator_socket.h>
-#include <tlm_utils/simple_target_socket.h>
-#include <tlm_utils/peq_with_cb_and_phase.h>
+//#include <tlm_utils/simple_initiator_socket.h>
+//#include <tlm_utils/simple_target_socket.h>
 
 #include "vp/vp.hpp"
 #include "vp/itf/io.hpp"
@@ -108,8 +107,8 @@ class Gvsoc_Top : sc_core::sc_module, gv::Io_user
 		std::vector<gv::Io_request *> gvsoc2vdk_pending_requests;
 		std::vector<gv::Io_request *> vdk2gvsoc_pending_requests;
 
-		tlm_utils::simple_target_socket<Gvsoc_Top> target_socket;
-		tlm_utils::simple_initiator_socket<Gvsoc_Top> initiator_socket;
+		scml2::simple_target_socket<Gvsoc_Top> target_socket;
+		scml2::simple_initiator_socket<Gvsoc_Top> initiator_socket;
 
 		std::string m_config_file;
 		gv::Gvsoc *gvsoc;
