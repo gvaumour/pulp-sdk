@@ -33,7 +33,9 @@ Gvsoc_Top::Gvsoc_Top(sc_module_name name, string config_path) :
 
 		m_config_file = config_path;
 
-	    SC_THREAD(dummy_thread);
+		#ifdef IS_STANDALONE_EXEC
+		SC_THREAD(dummy_thread);
+		#endif
 
 	    SC_THREAD(gvsoc2vdk_process);
 	    sensitive << event_access;
@@ -47,9 +49,13 @@ Gvsoc_Top::Gvsoc_Top(sc_module_name name, string config_path) :
 
 }
 
+
+#ifdef IS_STANDALONE_EXEC
+
 /* 
  * This thread does nothing but prevent the SystemC simulation
- * from stopping when simulation only progress in GVSoC
+ * from stopping when simulation only progresses in GVSoC
+ * Note that will make the simulation running forever and it has to be killed manually
  */
 void Gvsoc_Top::dummy_thread() {
 
@@ -59,6 +65,7 @@ void Gvsoc_Top::dummy_thread() {
 	}
 
 }
+#endif
 
 void Gvsoc_Top::gvsoc2vdk_process()
 {
@@ -86,8 +93,13 @@ void Gvsoc_Top::gvsoc2vdk_process()
 		// A request corresponds to one or more transactions
 		uint32_t nt = req->size / BYTES_PER_ACCESS;
 		uint32_t n_trans = nt > 0 ? nt : 1;
-		std::cout << "Received io_request converted into " << n_trans << " transaction(s)" << std::endl;
-		
+		// std::cout << "Received io_request converted into " << n_trans << " transaction(s)" << std::endl;
+
+		#ifdef IS_STANDALONE_EXEC
+		if (req->addr == (uint64_t) END_SIM_ADDRESS)
+			sc_stop();
+		#endif
+
 		for (auto t = 0; t < n_trans; t++) {
 
 			// Get a generic payload from memory manager
@@ -101,11 +113,8 @@ void Gvsoc_Top::gvsoc2vdk_process()
 
 			// Convert tlm transaction back to io_req 
 			if (p->get_command() == tlm::TLM_READ_COMMAND)
-				gp_to_req(req , p);
+				gp_to_req(req , p, true);
 		}
-
-		unsigned char *data1 = req->data;
-		std::cout << "Greg , data = 0x" << std::hex << *(uint32_t *)data1 << std::dec  << ", size " << req->size << std::endl;
 
         // Send the reply to the request, this will unblock the riscv core
         gvsoc_binding->reply(req);
@@ -128,7 +137,7 @@ void Gvsoc_Top::access(gv::Io_request *req)
 
 void Gvsoc_Top::grant(gv::Io_request *req)
 {
-	cout << name() << ":grant function is called, don't know what to do !!!!" << endl;
+	cout << name() << ": grant function is called, don't know what to do !!!!" << endl;
 }
 
 void Gvsoc_Top::reply(gv::Io_request *req)
@@ -140,11 +149,14 @@ void Gvsoc_Top::reply(gv::Io_request *req)
     std::unique_lock<std::mutex> lock(this->mutex1);
 	for (auto io_req : vdk2gvsoc_pending_requests) {
 		if (io_req == req) {
+			/*
 			std::cout << name() << ": Received reply from Pulp side addr=0x" << std::hex << req->addr << std::dec << std::endl;
 			if (req->retval == gv::Io_request_ok)
 				std::cout << name() << ": Io_request ok" << std::endl;
 			else
 				std::cout << name() << ": Io_request NOT ok" << std::endl;
+			*/
+			if (!io_req->is_write)
 
 			vdk2gvsoc_pending_requests.erase(vdk2gvsoc_pending_requests.begin() + i);
 		    break;
@@ -162,7 +174,6 @@ void Gvsoc_Top::req_to_gp(gv::Io_request *r, tlm::tlm_generic_payload *p, uint32
 
 	tlm::tlm_command cmd = r->is_write ? tlm::TLM_WRITE_COMMAND : tlm::TLM_READ_COMMAND;
 	string a = r->is_write ? "TLM_WRITE_COMMAND" : "TLM_READ_COMMAND";
-	cout << name() << ": cmd = " << a << endl;
 	uint32_t offset = tid * BYTES_PER_ACCESS;
 	sc_dt::uint64 addr = r->addr + offset;
 	
@@ -182,7 +193,7 @@ void Gvsoc_Top::req_to_gp(gv::Io_request *r, tlm::tlm_generic_payload *p, uint32
 
 }
 
-void Gvsoc_Top::gp_to_req(gv::Io_request *r, tlm::tlm_generic_payload *p)
+void Gvsoc_Top::gp_to_req(gv::Io_request *r, tlm::tlm_generic_payload *p, bool is_reply)
 {
 	assert(r);
 	assert(p);
@@ -190,7 +201,10 @@ void Gvsoc_Top::gp_to_req(gv::Io_request *r, tlm::tlm_generic_payload *p)
 
 	r->addr = p->get_address();
 	r->size = p->get_data_length();
-	r->data = (unsigned char *) malloc(r->size);
+
+	// In case of a reply, the r->data buffer is already allocated, it should not be changed
+	if (!is_reply)
+		r->data = new uint8_t(r->size);
 	memcpy(r->data, p->get_data_ptr() , r->size);
 
 	if (p->get_command() ==  tlm::TLM_WRITE_COMMAND)
@@ -208,17 +222,16 @@ void Gvsoc_Top::invalidate_direct_mem_ptr(sc_dt::uint64 start_range, sc_dt::uint
 
 void Gvsoc_Top::b_transport(tlm::tlm_generic_payload& tr, sc_time& delay)
 {	
-	std::cout << name() << ": b_transport called " << std::endl;
-
     gv::Io_request *io_req = new gv::Io_request();
 
-    gp_to_req(io_req, &tr);
-
-    printf("Received access from VDK addr: 0x%lx, size: %ld, is_write: %d, value: 0x%x\n", io_req->addr, io_req->size, io_req->is_write, *(uint32_t *)io_req->data);
-
+    gp_to_req(io_req, &tr, false);
+    
+    
 	// Enqueue the request and wait for reply, meanwhile the VDK side is stucked
     this->vdk2gvsoc_pending_requests.push_back(io_req);
 	gvsoc_binding->access(io_req);
+
+	printf("Received access from VDK addr: 0x%lx, size: %ld, is_write: %d, value: 0x%x\n", io_req->addr, io_req->size, io_req->is_write, *(uint32_t *)io_req->data);
 
 	tr.set_response_status(tlm::TLM_OK_RESPONSE);
 }

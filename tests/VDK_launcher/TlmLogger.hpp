@@ -33,7 +33,7 @@ class TlmLogger : public sc_core::sc_module
         const unsigned char data_buffer_const[4] = {0x0, 0x1, 0x2, 0x3};
 
         ems::mm mm;
-        sc_core::sc_event event_start_write{"write_event"};
+        sc_core::sc_event event_start_transaction{"write_event"};
 
         SC_HAS_PROCESS(TlmLogger);
 
@@ -44,8 +44,8 @@ class TlmLogger : public sc_core::sc_module
                 in.register_transport_dbg     (this, &TlmLogger::transport_dbg);
                 in.register_get_direct_mem_ptr(this, &TlmLogger::get_direct_mem_ptr);
 
-                SC_THREAD(generate_traffic);
-                sensitive << event_start_write;
+                SC_THREAD(write_traffic);
+                SC_THREAD(read_traffic);
         }
 
         void b_transport( tlm::tlm_generic_payload& tr, sc_time& delay )
@@ -69,7 +69,7 @@ class TlmLogger : public sc_core::sc_module
                 tr.set_response_status(tlm::TLM_OK_RESPONSE);
 
                 if (tr.get_command() == tlm::TLM_WRITE_COMMAND)
-                        event_start_write.notify();
+                        event_start_transaction.notify();
         }
 
         unsigned int transport_dbg( tlm::tlm_generic_payload& tr )
@@ -86,14 +86,17 @@ class TlmLogger : public sc_core::sc_module
                 return false;
         }
 
-        void generate_traffic()
+        void write_traffic()
         {
+                int i = 0;
+
                 for(;;){
-                        wait(event_start_write);
+                        wait(event_start_transaction);
+
                         tlm::tlm_generic_payload *p;
                         sc_time delay = SC_ZERO_TIME;
 
-                        std::cout << name() << ": Sending request " << std::endl;
+                        std::cout << name() << ": Sending Write Request " << std::endl;
                         p = mm.palloc();
                         p->acquire();
 
@@ -108,10 +111,40 @@ class TlmLogger : public sc_core::sc_module
 
                         out->b_transport(*p, delay);
                         if (p->get_response_status() == tlm::TLM_OK_RESPONSE) 
-                                std::cout << name() << ": Response is OK" << std::endl;
-                        else 
-                                std::cout << name() << ": Response is not OK" << std::endl;
+                                std::cout << name() << ": Write Response is OK" << std::endl;
+                        else
+                                std::cout << name() << ": Write Response is not OK" << std::endl;
+                        i++;
+                }
+        }
 
+        void read_traffic() {
+
+                for(;;) {
+                        wait(event_start_transaction);
+
+                        tlm::tlm_generic_payload *p;
+                        sc_time delay = SC_ZERO_TIME;
+
+                        std::cout << name() << ": Sending Read Request " << std::endl;
+                        p = mm.palloc();
+                        p->acquire();
+
+                        unsigned char data[4] = {0xef, 0xbe, 0xad, 0xde};
+                        p->set_command(tlm::TLM_READ_COMMAND);
+                        p->set_address(0x1c000004);
+                        p->set_data_ptr(data);
+                        p->set_data_length(4);
+                        p->set_byte_enable_ptr(nullptr);
+                        p->set_dmi_allowed(false);
+                        p->set_response_status(tlm::TLM_INCOMPLETE_RESPONSE);
+
+                        out->b_transport(*p, delay);
+                        if (p->get_response_status() == tlm::TLM_OK_RESPONSE) {
+                                std::cout << name() << ": Read Response at addr 0x1c000004=0x" << std::hex << *(uint32_t *)data << std::dec << std::endl;
+                        }
+                        else
+                                std::cout << name() << ": Read Response is not OK" << std::endl;
                 }
         }
 

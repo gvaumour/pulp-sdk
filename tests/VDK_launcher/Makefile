@@ -15,7 +15,7 @@ include $(RULES_DIR)/pmsis_rules.mk
 LAUNCHER = SCML_launcher
 
 LAUNCHER_SRCS = main.cpp Gvsoc_Top.cpp
-LAUNCHER_CFLAGS += -I${SYSTEMC_HOME}/include -I${SCML_HOME}/include -I$(GVSOC_SRC_PATH)/engine/include -I${INSTALL_DIR}/include
+LAUNCHER_CFLAGS += -DIS_STANDALONE_EXEC -I${SYSTEMC_HOME}/include -I${SCML_HOME}/include -I$(GVSOC_SRC_PATH)/engine/include -I${INSTALL_DIR}/include
 LAUNCHER_LD_FLAGS += -L${SYSTEMC_HOME}/lib-linux64 -L${SCML_HOME}/lib-linux64 -lsystemc -lscml -L$(GVSOC_PATH) -lpulpvp-debug 
 
 launcher.build: Makefile $(LAUNCHER_SRCS)

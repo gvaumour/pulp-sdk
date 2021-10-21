@@ -40,6 +40,10 @@
 #define BYTES_PER_ACCESS    64
 #define ACCEPT_DELAY_PS     1000
 
+#ifdef IS_STANDALONE_EXEC
+#define END_SIM_ADDRESS     0x2FFFFFFF
+#endif
+
 class ThreadSafeEventIf : public sc_interface {
     virtual void notify(sc_time delay = SC_ZERO_TIME) = 0;
     virtual const sc_event &default_event(void) const = 0;
@@ -80,7 +84,10 @@ class Gvsoc_Top : sc_core::sc_module, gv::Io_user
 		Gvsoc_Top(sc_core::sc_module_name name, std::string config_path);
 
 		void gvsoc2vdk_process();
+
+		#ifdef IS_STANDALONE_EXEC
 		void dummy_thread();
+		#endif
 
 		/* API to gv::Io_user */ 
 		void access(gv::Io_request *req);
@@ -95,7 +102,7 @@ class Gvsoc_Top : sc_core::sc_module, gv::Io_user
 
 		/* Util functions */ 
 		void req_to_gp(gv::Io_request *r, tlm::tlm_generic_payload *p, uint32_t tid, bool last);
-		void gp_to_req(gv::Io_request *r, tlm::tlm_generic_payload *p);
+		void gp_to_req(gv::Io_request *r, tlm::tlm_generic_payload *p, bool is_reply);
 
 		// Incoming requests from Gvsoc or from VDK are enqueued in these arrays
 		std::vector<gv::Io_request *> gvsoc2vdk_pending_requests;

@@ -11,9 +11,12 @@
 #include "pmsis.h"
 #include "stdio.h"
 
+#define END_SIM_ADDRESS 0x2FFFFFFF
+
 int test_entry()
 {
   *(volatile int *)0x1c000000 = 0;
+  *(volatile int *)0x1c000004 = 0xcafe;
 
   printf("###### Testing Writing to AXI_PROXY\n");
   for (int i=0; i<3; i++)
@@ -27,6 +30,8 @@ int test_entry()
 
       *(volatile int *)0x1c000000 = 0;
   }
+
+  *(volatile int *)END_SIM_ADDRESS = 1; // Will stop the systemC simulation 
 
   return 0;
 }
