@@ -26,7 +26,7 @@
 //#include <tlm_utils/simple_target_socket.h>
 #include <scml2.h>
 
-#include "ems_mm.h"
+#include "../src/ems_mm.h"
 
 class TlmLogger : public sc_core::sc_module
 {

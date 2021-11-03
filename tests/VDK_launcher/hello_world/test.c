@@ -1,13 +1,12 @@
 /* 
- * Copyright (C) 2017 ETH Zurich, University of Bologna and GreenWaves Technologies
+ * Copyright (C) 2021 ATOS
  * All rights reserved.
  *
  * This software may be modified and distributed under the terms
  * of the BSD license.  See the LICENSE file for details.
  *
- * Authors: Germain Haugou, ETH (germain.haugou@iis.ee.ethz.ch)
+ * Authors: Gregory Vaumourin, Atos/Bull (gregory.vaumourin@atos.net)
  */
-
 #include "pmsis.h"
 #include "stdio.h"
 

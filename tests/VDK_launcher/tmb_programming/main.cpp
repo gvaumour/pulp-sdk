@@ -13,6 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * This is a self-contained example of GVSoC integration into a SystemC simulation 
+ * In this example, GVSoC_Top tries to program sequence of TMBs 
+ * 
+ * 
  * Authors: Gregory Vaumourin (gregory.vaumourin@atos.net)
  */
 #include <string>
@@ -20,7 +24,7 @@
 #include <tlm_utils/simple_target_socket.h>
 
 #include <systemc>
-#include "Gvsoc_Top.hpp"
+#include "../src/Gvsoc_Top.hpp"
 #include "TlmLogger.hpp"
 
 int sc_main(int argc, char* argv[])
@@ -38,7 +42,7 @@ int sc_main(int argc, char* argv[])
         return -1;
     }
     TlmLogger logger("logger");
-    Gvsoc_Top top("top", string(config_path) );
+    Gvsoc_Top top("top");
 
 /*
     scml_clock pclk {"pclk", sc_time(2, SC_NS)};
