@@ -70,7 +70,7 @@ class TlmLogger : public sc_core::sc_module
                 }
 
                 if (cmd == tlm::TLM_READ_COMMAND){
-                        (uint32_t *)data_buffer = map_registers[address];
+                        memcpy(data_buffer , &(map_registers[address]), sizeof(uint32_t));
                         tr.set_data_ptr(data_buffer);
                         tr.set_data_length(4);
                }

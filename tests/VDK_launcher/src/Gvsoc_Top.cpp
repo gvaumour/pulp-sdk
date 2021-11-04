@@ -97,8 +97,10 @@ void Gvsoc_Top::gvsoc2vdk_process()
 		// std::cout << "Received io_request converted into " << n_trans << " transaction(s)" << std::endl;
 
 		#ifdef IS_STANDALONE_EXEC
-		if (req->addr == (uint64_t) END_SIM_ADDRESS)
+		if (req->addr == (uint64_t) END_SIM_ADDRESS){
+			wait(sc_time(2, SC_US));
 			sc_stop();
+		}
 		#endif
 
 		for (auto t = 0; t < n_trans; t++) {
